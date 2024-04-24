@@ -1,0 +1,20 @@
+{
+  "name": "express-auth-api",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "start": "set NODE_ENV=production&& node ./bin/www",
+    "dev": "set NODE_ENV=development&& node ./bin/dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "zzlorz",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "jsonwebtoken": "^9.0.2",
+    "postgres": "^3.4.4"
+  }
+}
