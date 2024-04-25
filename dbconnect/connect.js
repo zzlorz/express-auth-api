@@ -1,13 +1,15 @@
-const { Sequelize, Model, DataTypes } = require("sequelize");
+const {createClient} = require('@supabase/supabase-js')
 
-// 创建 Sequelize 实例
-const sequelize = new Sequelize(
-  "postgres://postgres.dxzmebuimxtfznmcdwht:${process.env.DB_PASSWORD}@aws-0-us-west-1.pooler.supabase.com:5432/postgres"
-);
-try {
-  await sequelize.authenticate();
-  console.log("Connection has been established successfully.");
-} catch (error) {
-  console.error("Unable to connect to the database:", error);
+const options = {
+  db: {
+    schema: 'public'
+  },
+  auth: {
+    autoRefreshToken: true,
+    persistSession: true,
+    detectSessionInUrl: true
+  }
 }
-module.exports = sequelize;
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, options)
+
+module.exports = supabase

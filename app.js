@@ -33,7 +33,8 @@ app.use(express.static(path.join(__dirname, "static")));
 const SECRET = "abc@abc";
 
 const asyncAuth = (req, res, next) => {
-  const whiteList = ["/404", "/login", "/signout", "/registered"];
+  console.log(req.path)
+  const whiteList = ["/404", "/login", "/signout", "/register"];
   // 获取客户端请求头的token
   const rawToken = String(req.headers.authorization).split(" ").pop();
   const tokenData = jwt.verify(rawToken, SECRET, (error, decoded) => {
@@ -44,12 +45,12 @@ const asyncAuth = (req, res, next) => {
   });
   if (tokenData != "errortoken") {
     next();
-  } else if(whiteList.includes(req.path) || req.url === "/") {
+  } else if(whiteList.includes(req.path.split('/api')[1]) || req.url === "/" || req.url === "/api/" || req.url === "/api") {
     next();
   } else {
     res.json({ errcode: 1, msg: "请先登录" });
   }
 };
 app.all("*", asyncAuth);
-app.use("/", indexRouter);
+app.use("/api/", indexRouter);
 module.exports = app;
