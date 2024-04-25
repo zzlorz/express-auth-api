@@ -10,6 +10,6 @@ const options = {
     detectSessionInUrl: true
   }
 }
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, options)
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY, options);
 
-module.exports = supabase
+module.exports = supabase;
