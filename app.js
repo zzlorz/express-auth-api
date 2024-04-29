@@ -12,7 +12,11 @@ app.use(
     origin: [
       "http://localhost:8080",
       "https://www.youlaji.com",
-      "http://www.youlaji.com",
+      "http://youlaji.com",
+      "http://api.youlaji.com",
+      "https://ulikes.top",
+      "http://ulikes.top",
+      "http://www.ulikes.top",
     ],
     // origin:'*',
     methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
