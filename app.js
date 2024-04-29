@@ -45,12 +45,12 @@ const asyncAuth = (req, res, next) => {
   });
   if (tokenData != "errortoken") {
     next();
-  } else if(whiteList.includes(req.path.split('/api')[1]) || req.url === "/" || req.url === "/api/" || req.url === "/api") {
+  } else if(whiteList.includes(req.path.split('/v1')[1]) || req.url === "/" || req.url === "/v1/" || req.url === "/v1") {
     next();
   } else {
     res.json({ errcode: 1, msg: "请先登录" });
   }
 };
 app.all("*", asyncAuth);
-app.use("/api/", indexRouter);
+app.use("/v1/", indexRouter);
 module.exports = app;
