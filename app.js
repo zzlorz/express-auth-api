@@ -9,16 +9,16 @@ var app = express();
 // view engine setup
 app.use(
   cors({
-    origin: [
-      "http://localhost:8080",
-      "https://www.youlaji.com",
-      "http://youlaji.com",
-      "http://api.youlaji.com",
-      "https://ulikes.top",
-      "http://ulikes.top",
-      "http://www.ulikes.top",
-    ],
-    // origin:'*',
+    // origin: [
+    //   "http://localhost:8080",
+    //   "https://www.youlaji.com",
+    //   "http://youlaji.com",
+    //   "http://api.youlaji.com",
+    //   "https://ulikes.top",
+    //   "http://ulikes.top",
+    //   "http://www.ulikes.top",
+    // ],
+    origin:'*',
     methods: ["PUT", "GET", "POST", "DELETE", "OPTIONS"],
     alloweHeaders: [
       "Conten-Type",
