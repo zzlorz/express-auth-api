@@ -41,7 +41,7 @@ router.get("/login", async (req, res, next) => {
             process.env.JWT_SECRET, 
             { expiresIn: "2h" }
         );
-        res.json({ errcode: 0, data: { token }, msg: "登录成功" });
+        res.json({ errcode: 0, token, msg: "登录成功" });
       }else{
         res.json({ errcode: 0, msg: "用户名或者密码错误" });
       }
@@ -50,7 +50,7 @@ router.get("/login", async (req, res, next) => {
     }       
     // return;
   } catch (error) {
-    res.send({ errcode: 1, data: error });
+    res.send({ errcode: 1, error});
     // return;
   }
 });
@@ -88,6 +88,105 @@ router.get("/register", async (req, res, next) => {
   }
 });
 
+/**
+ * 获取主题
+ * page: 页码
+ * limit: 每页数量
+ * */ 
+router.get("/theme", async (req, res, next) => {
+  const {page, limit} = req.query;
+  page = page || 1;
+  limit = limit || 10;  
+  try {
+    let { data: youlaji_blog_test, error } = await supabase.from('youlaji_blog_test').select('*').range((page-1) * limit, page * limit);
+    if(error) {
+      res.json({ errcode: 1, msg: "系统错误" });
+      return
+    }
+    res.send({ errcode: 2, list: youlaji_blog_test });
+    return;
+  } catch (error) {
+    res.send({ errcode: 1, data: error });
+    return;
+  }
+});
+/**
+ * 查询主题详情
+ * id: 主题id
+*/
+router.get("/theme/detail", async (req, res, next) => {
+  const {id} = req.query;
+  try {
+    let { data: youlaji_blog_test, error } = await supabase.from('youlaji_blog_test').select('*').eq('id', id);
+    if(error) {
+      res.json({ errcode: 1, msg: "系统错误" });
+      return
+    }
+    res.send({ errcode: 2, detail: youlaji_blog_test });
+    return;
+  }catch(error) {
+    res.send({ errcode: 1, data: error });
+    return;
+  }
+});
+/**
+ * 新增主题
+ * theme_title: 主题标题
+ * theme_description: 主题描述
+ * theme_position: 主题位置
+ *  theme_date: 主题日期
+ * theme_cover: 主题封面
+*/
+router.post("/theme/add", async (req, res, next) => {
+  const {theme_title, theme_description, theme_position, theme_position_detail, theme_date, theme_cover} = req.body;
+  try {
+    let { data: youlaji_blog_test, error } = await supabase.from('youlaji_blog_test').insert({theme_title: theme_title, theme_description: theme_description, theme_position: theme_position, theme_position_detail: theme_position_detail, theme_date: theme_date, theme_cover: theme_cover}).select();
+    if(error) {
+      res.json({ errcode: 1, detail: youlaji_blog_test, msg:"系统错误" });
+    }
+  }catch(error) {
+    res.send({ errcode: 1, data: error });
+    return;
+  }
+});
+/**
+ * 更新单个主题
+ * id: 主题id
+ * theme_title: 主题标题
+ * theme_description: 主题描述
+ * theme_position: 主题位置
+ *  theme_date: 主题日期
+ * theme_cover: 主题封面
+*/
+router.post("/theme/update", async (req, res, next) => {
+  const {id, theme_title, theme_description, theme_position, theme_position_detail, theme_date, theme_cover} = req.body;
+  try {
+    let { data: youlaji_blog_test, error } = await supabase.from('youlaji_blog_test').update({theme_title: theme_title, theme_description: theme_description, theme_position: theme_position, theme_position_detail: theme_position_detail, theme_date: theme_date, theme_cover: theme_cover}).eq('theme_id', id);
+    if(error) {
+      res.json({ errcode: 1, msg:"系统错误" });
+    }
+  }catch(error) {
+    res.send({ errcode: 1, data: error });
+    return;
+  }
+});
+/**
+ * 删除主题（不是物理删除）
+*/
+router.post("/theme/delete", async (req, res, next) => {
+  const {id} = req.body;
+  try {
+    let { data: youlaji_blog_test, error } = await supabase.from('youlaji_blog_test').update({is_delete: 1}).eq('id', id);
+    if(error) {
+      res.json({ errcode: 1, msg: "系统错误" });
+      return
+    }
+    res.send({ errcode: 2, detail: youlaji_blog_test});
+  }catch(error) {
+    res.send({ errcode: 1, data: error });
+    return;
+  }
+});
 module.exports = router;
 
 
